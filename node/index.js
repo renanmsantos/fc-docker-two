@@ -11,13 +11,14 @@ const dbConfig = {
     database: 'fullcycle'
 }
 const connection = mysql.createConnection(dbConfig)
-const sql = `INSERT INTO people(name) VALUES('Renan')`
+const sql = `CREATE TABLE IF NOT EXISTS people (id INT AUTO_INCREMENT, name VARCHAR(255), PRIMARY KEY (id));`
 connection.query(sql)
 connection.end()
 
 app.get('/', (_,res) => {
     let connection = mysql.createConnection(dbConfig)
-    connection.connect()
+    const sql = `INSERT INTO people(name) VALUES('Renan')`
+    connection.query(sql)
     let title = "<h1>Full Cycle Rocks!</h1><br><br>";
     connection.query('SELECT * FROM people', (err, row) => {
         if (err) throw err;
